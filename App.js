@@ -8,7 +8,7 @@ import AddTodo from './components/addTodo';
 export default function App() {
 
   const [todos,setTodos] = useState([
-    {text:'Buy a coffee', key: 1},
+    {text:'Buy a new coffee', key: 1},
     {text:'Buy milk', key: 2},
     {text:'Create react native app', key: 3},
     {text:'Create node app', key: 4},
@@ -26,12 +26,21 @@ export default function App() {
       return previous.filter(todo => todo.key != key);
     })
   }
+
+  const submitHandler = (text) => {
+      setTodos((previous)=>{
+          return [
+            {text:text,key:Math.random()},
+            ...previous
+          ]
+      });
+  }
   return (
     <View style={styles.container}>
       <Header/>
       <View style={styles.content}>
           {/* todo forms */}
-          <AddTodo/>
+          <AddTodo submitHandler = {submitHandler}/>
           <View style={styles.list}>
               <FlatList
                 data={todos}
