@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 
-const AddTodo = () => {
+const AddTodo = ({submitHandler}) => {
     const [text,setText] = useState('');
     const changeHandler = (value) => {
         setText(value)
@@ -15,7 +15,7 @@ const AddTodo = () => {
                 onChangeText={changeHandler}
             />
             <Button 
-                onPress={()=>console.log(text)}
+                onPress={()=>submitHandler(text)}
                 title='Ajouter'
                 color='coral'
             />
