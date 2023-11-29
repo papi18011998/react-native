@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, FlatList, Keyboard, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Header from './components/Header';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/addTodo';
@@ -28,29 +28,35 @@ export default function App() {
   }
 
   const submitHandler = (text) => {
-      setTodos((previous)=>{
+      if(text.length > 3){
+        setTodos((previous)=>{
           return [
             {text:text,key:Math.random()},
             ...previous
           ]
       });
+      }else{
+        Alert.alert('OOPS','Vous devez renseigner au moins 4 caractères');
+      }
   }
   return (
-    <View style={styles.container}>
-      <Header/>
-      <View style={styles.content}>
-          {/* todo forms */}
-          <AddTodo submitHandler = {submitHandler}/>
-          <View style={styles.list}>
-              <FlatList
-                data={todos}
-                renderItem={({item})=>(
-                    <TodoItem item={item} pressHandler={pressHandler} />
-                  )}
-              />
-          </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Header/>
+        <View style={styles.content}>
+            {/* todo forms */}
+            <AddTodo submitHandler = {submitHandler}/>
+            <View style={styles.list}>
+                <FlatList
+                  data={todos}
+                  renderItem={({item})=>(
+                      <TodoItem item={item} pressHandler={pressHandler} />
+                    )}
+                />
+            </View>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
